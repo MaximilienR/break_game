@@ -3,23 +3,21 @@ import sys
 
 # Initialisation de Pygame
 pygame.init()
-# compteur de vie 
+
+# Compteur de vie
 life = 3
-#afficher le compteur de vie 
+
+# Afficher le compteur de vie
 print("Vous avez", life, "vies")
 
-#Game over
-if life == 0:
-    print("Game over")
-    
 # Définition de la fenêtre de jeu
 screen_width = 640
 screen_height = 640
 screen = pygame.display.set_mode((screen_width, screen_height))
- 
+
 # Définition des couleurs
 WHITE = (255, 255, 255)
-BLUE =(3,34,76)
+BLUE = (3, 34, 76)
 
 # Définition de la balle
 ball_x = screen_width / 2
@@ -38,10 +36,11 @@ paddle_y = screen_height - paddle_height - 20
 bricks = []
 for i in range(5):
     for j in range(10):
-        brick_x = j * 60 + 10
-        brick_y = i * 30 + 10
+        brick_x = j * (60 + 4) + 10
+        brick_y = i * (30 + 4) + 10
         bricks.append((brick_x, brick_y))
-## Boucle principale du jeu
+
+# Boucle principale du jeu
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -51,19 +50,20 @@ while True:
     # Déplacement de la balle
     ball_x += ball_speed_x
     ball_y += ball_speed_y
-    #Deplacement de la raquette
+
+    # Déplacement de la raquette
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and paddle_x > 0:
-        paddle_x -= 5
+        paddle_x -= 10
     if keys[pygame.K_RIGHT] and paddle_x < screen_width - paddle_width:
-        paddle_x += 5
+        paddle_x += 10
 
     # Collision avec les bordures de l'écran
     if ball_x < 0 or ball_x > screen_width:
         ball_speed_x = -ball_speed_x
     if ball_y < 0:
         ball_speed_y = -ball_speed_y
-    if ball_y> screen_height:
+    if ball_y > screen_height:
         life -= 1
         ball_x = screen_width / 2
         ball_y = screen_height / 2
@@ -76,8 +76,8 @@ while True:
 
     # Collision avec les briques
     for brick in bricks:
-        if (ball_x > brick[0] and ball_x < brick[0] + 60 and
-            ball_y > brick[1] and ball_y < brick[1] + 30):
+        if (ball_x > brick[0] and ball_x < brick[0] + 60 + 4 and
+            ball_y > brick[1] and ball_y < brick[1] + 30 + 4):
             bricks.remove(brick)
             ball_speed_y = -ball_speed_y
 
@@ -92,8 +92,6 @@ while True:
     font = pygame.font.Font(None, 36)
     text = font.render("Vies : " + str(life), True, (255, 255, 255))
     screen.blit(text, (screen_width - 150, screen_height - 40))  # Dessine le texte en bas à droite
-    
-    
 
     # Mise à jour de l'écran
     pygame.display.flip()
