@@ -93,12 +93,21 @@ while True:
     text = font.render("Vies : " + str(life), True, (255, 255, 255))
     screen.blit(text, (screen_width - 150, screen_height - 40))  # Dessine le texte en bas à droite
 
+    # Afficher le score
+    score_text = font.render("Score : " + str(len(bricks)), True, (255, 255, 255))
+    screen.blit(score_text, (10, 10))
+
+    # Afficher le message "Partie terminée" lorsque le joueur a perdu
+    if life <= 0:
+        game_over_text = font.render("Partie terminée. Votre score est de " + str(len(bricks)), True, (255, 255, 255))
+        screen.blit(game_over_text, (screen_width / 2 - game_over_text.get_width() / 2, screen_height / 2 - game_over_text.get_height() / 2))
+
     # Mise à jour de l'écran
     pygame.display.flip()
     pygame.time.Clock().tick(60)
 
     # Fin du jeu si le nombre de vies est à 0
-    if life <= 0:
+    if life <= 0 and len(bricks) == 0:
         print("Game Over")
         pygame.quit()
         sys.exit()
